@@ -85,6 +85,8 @@ impl PromptMessageContent {
 /// A message in a prompt conversation
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct PromptMessage {
+    /// The id of the message
+    pub id: Option<String>,
     /// The role of the message sender
     pub role: PromptMessageRole,
     /// The content of the message
@@ -95,6 +97,7 @@ impl PromptMessage {
     /// Create a new text message with the given role and text content
     pub fn new_text<S: Into<String>>(role: PromptMessageRole, text: S) -> Self {
         Self {
+            id: None,
             role,
             content: PromptMessageContent::Text { text: text.into() },
         }
@@ -111,6 +114,7 @@ impl PromptMessage {
         let base64 = BASE64_STANDARD.encode(data);
 
         Self {
+            id: None,
             role,
             content: PromptMessageContent::Image {
                 image: RawImageContent {
@@ -137,6 +141,7 @@ impl PromptMessage {
         };
 
         Self {
+            id: None,
             role,
             content: PromptMessageContent::Resource {
                 resource: RawEmbeddedResource {
